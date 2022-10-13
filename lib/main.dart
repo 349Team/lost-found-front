@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:teste/screens/loginScreen.dart';
-import 'screens/lostObjectsList.dart';
 
 void main() => runApp(MyApp());
 
@@ -12,7 +11,7 @@ class MyApp extends StatelessWidget {
       title: 'Drawer and Navigation',
       theme:
           ThemeData(primarySwatch: Colors.blue, primaryColor: Colors.blue[900]),
-      home: LostObjectsList(),
+      home: LoginScreen(),
     );
   }
 }
