@@ -1,6 +1,6 @@
 {
-    "name": "lost_found",
-    "short_name": "lost_found",
+    "name": "drawer_and_bottom_bar",
+    "short_name": "drawer_and_bottom_bar",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
