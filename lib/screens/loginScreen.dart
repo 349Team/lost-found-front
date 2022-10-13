@@ -9,31 +9,95 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreen extends State<LoginScreen> {
-  final jsonData =
-      '{"objetos":[{"nome":"Garrafa térmica","descricao":"Preta e prateada,  grande.","status":1,"link":"https://img.ltwebstatic.com/images3_pi/2022/04/27/1651037631f786297003e1e997ded8c11927518868_thumbnail_600x.webp"},{"nome":"Pendrive","descricao":"Prateado","status":2,"link":"https://tm.ibxk.com.br/2017/11/17/17085531315009.jpg?ims=1120x420"},{"nome":"Guarda-chuva","descricao":"De flor.","status":3,"link":"https://drive.google.com/uc?export=view&id=1YQFgdKmZrUS9pSsP9QLAh864619HvLxe"}]}';
+  final _tLogin = TextEditingController();
+  final _tPassword = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    size:
+    MediaQuery.of(context).size; //getting the size property
+    orientation:
+    MediaQuery.of(context).orientation; //getting the orientation
     return Scaffold(
-        floatingActionButton: FloatingActionButton(
-            child: Icon(Icons.add),
-            onPressed: () {
-              _completeLogin();
-            }),
-        appBar: AppBar(
-          title: Text("LOGIN"),
-        ),
-        body: Container(
-            child: Center(
-          child: Text("TELA DE LOGIN"),
-        )));
-  }
+      backgroundColor: Colors.white,
+      body: SizedBox(
+        height: double.infinity,
+        width: double.infinity,
+        child: SingleChildScrollView(
+          child: Column(
+            // mainAxisAlignment: MainAxisAlignment.center,
+            // crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SizedBox(height: 100),
+              // Text(
+              //   'Last + Found',
+              //   style: TextStyle(color: Colors.blue[900], fontSize: 30),
+              // ),
+              Container(
+                height: 150,
+                width: 150,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                ),
+                // child: Container(
+                child: Image.asset(
+                  'assets/icone.png',
+                  fit: BoxFit.cover,
+                ),
+                // ),
+              ),
+              // SizedBox(height: 10),
+              Padding(
+                padding: EdgeInsets.all(10.0),
+                child: TextField(
+                  controller: _tLogin,
+                  decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'Username',
+                      hintText: 'Enter a valid email'),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.all(10.0),
+                child: TextField(
+                  controller: _tPassword,
+                  obscureText: true,
+                  decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'Password',
+                      hintText: 'Enter your password'),
+                ),
+              ),
+              // TextButton(
+              //   onPressed: () {},
+              //   child: Text(
+              //     'Forgot password?',
+              //     style: TextStyle(color: Colors.blue[900], fontSize: 15),
+              //   ),
+              // ),
 
-  void _completeLogin() {
-    Navigator.pushReplacement<void, void>(
-      context,
-      MaterialPageRoute<void>(
-        builder: (BuildContext context) => LostObjectsList(),
+              Container(
+                height: 50,
+                width: 200,
+                decoration: BoxDecoration(
+                    color: Colors.blue[900],
+                    borderRadius: BorderRadius.circular(15)),
+                child: TextButton(
+                  onPressed: () {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (_) => LostObjectsList()),
+                    );
+                  },
+                  child: Text(
+                    'Login',
+                    style: TextStyle(color: Colors.white, fontSize: 23),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
