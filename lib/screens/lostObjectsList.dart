@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 //import 'package:teste/data/dadosObjeto.dart';
 import 'package:teste/data/lost_object_model.dart';
 import 'package:teste/testeTile2.dart';
-import 'dart:convert';
 import 'package:teste/screens/addLostObject.dart';
 
 class LostObjectsList extends StatefulWidget {
