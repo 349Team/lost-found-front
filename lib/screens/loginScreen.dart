@@ -1,5 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:teste/screens/lostObjectsList.dart';
+import 'package:teste/services/api.dart';
+import 'package:http/http.dart' as http;
 
 class LoginScreen extends StatefulWidget {
   LoginScreen({Key? key}) : super(key: key);
@@ -11,6 +15,11 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreen extends State<LoginScreen> {
   final _tLogin = TextEditingController();
   final _tPassword = TextEditingController();
+
+  doRequests() async {
+    await api.login('userOner@email.com', 'userOnePass');
+    await api.verifyToken();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -84,10 +93,11 @@ class _LoginScreen extends State<LoginScreen> {
                     borderRadius: BorderRadius.circular(15)),
                 child: TextButton(
                   onPressed: () {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(builder: (_) => LostObjectsList()),
-                    );
+                    doRequests();
+                    // Navigator.pushReplacement(
+                    //   context,
+                    //   MaterialPageRoute(builder: (_) => LostObjectsList()),
+                    // );
                   },
                   child: Text(
                     'Login',

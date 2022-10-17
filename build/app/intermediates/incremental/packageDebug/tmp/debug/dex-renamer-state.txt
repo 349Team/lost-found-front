@@ -1,0 +1,4 @@
+#Mon Oct 17 01:30:30 BRT 2022
+base.0=/home/alessandro/Git/lost-found-front/lost-found-front/build/app/intermediates/dex/debug/mergeDexDebug/classes.dex
+renamed.0=classes.dex
+path.0=classes.dex
