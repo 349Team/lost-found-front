@@ -94,10 +94,10 @@ class _LoginScreen extends State<LoginScreen> {
                 child: TextButton(
                   onPressed: () {
                     doRequests();
-                    // Navigator.pushReplacement(
-                    //   context,
-                    //   MaterialPageRoute(builder: (_) => LostObjectsList()),
-                    // );
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (_) => LostObjectsList()),
+                    );
                   },
                   child: Text(
                     'Login',
