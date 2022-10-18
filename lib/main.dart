@@ -16,4 +16,6 @@ class MyApp extends StatelessWidget {
   }
 }
 
-void fazNada() {}
+void fazNada() {
+  int t = 10;
+}
