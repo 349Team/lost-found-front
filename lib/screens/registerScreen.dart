@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:teste/screens/loginScreen.dart';
 import 'package:teste/screens/lostObjectsList.dart';
 
-class CadastreScreen extends StatefulWidget {
-  CadastreScreen({Key? key}) : super(key: key);
+class RegisterScreen extends StatefulWidget {
+  RegisterScreen({Key? key}) : super(key: key);
 
   @override
-  _CadastreScreen createState() => _CadastreScreen();
+  _RegisterScreen createState() => _RegisterScreen();
 }
 
-class _CadastreScreen extends State<CadastreScreen> {
-  final _tName = TextEditingController();
-  final _tRa = TextEditingController();
-  final _tEmail = TextEditingController();
-  final _tPassword = TextEditingController();
+class _RegisterScreen extends State<RegisterScreen> {
+  final _nameController = TextEditingController();
+  final _raController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +40,7 @@ class _CadastreScreen extends State<CadastreScreen> {
               SizedBox(height: 100),
               Container(
                 child: Text(
-                  'Last + Found',
+                  'Criando um conta',
                   style: TextStyle(color: Colors.blue[900], fontSize: 30),
                 ),
               ),
@@ -47,19 +48,19 @@ class _CadastreScreen extends State<CadastreScreen> {
               Padding(
                 padding: EdgeInsets.all(10.0),
                 child: TextField(
-                  controller: _tName,
-                  autofocus: true,
+                  controller: _nameController,
+                  // autofocus: true,
                   keyboardType: TextInputType.name,
                   decoration: InputDecoration(
                       border: OutlineInputBorder(),
-                      labelText: 'Name',
-                      hintText: 'Enter your name'),
+                      labelText: 'Nome',
+                      hintText: 'Insira seu nome completo'),
                 ),
               ),
               Padding(
                 padding: EdgeInsets.all(10.0),
                 child: TextField(
-                  controller: _tRa,
+                  controller: _raController,
                   keyboardType: TextInputType.number,
                   maxLength: 7,
                   decoration: InputDecoration(
@@ -71,29 +72,30 @@ class _CadastreScreen extends State<CadastreScreen> {
               Padding(
                 padding: EdgeInsets.all(10.0),
                 child: TextField(
-                  controller: _tEmail,
+                  controller: _emailController,
                   keyboardType: TextInputType.emailAddress,
                   decoration: InputDecoration(
                       border: OutlineInputBorder(),
                       labelText: 'Email',
-                      hintText: 'Enter a valid email'),
+                      hintText: 'Digite um email válido'),
                 ),
               ),
               Padding(
                 padding: EdgeInsets.all(10.0),
                 child: TextField(
-                  controller: _tPassword,
+                  controller: _passwordController,
                   obscureText: true,
                   decoration: InputDecoration(
+                      fillColor: Colors.grey,
                       border: OutlineInputBorder(),
-                      labelText: 'Password',
-                      hintText: 'Enter your password'),
+                      labelText: 'Senha',
+                      hintText: 'Digite uma senha'),
                 ),
               ),
               SizedBox(height: 10),
               Container(
                 height: 50,
-                width: 200,
+                width: 230,
                 decoration: BoxDecoration(
                     color: Colors.blue[900],
                     borderRadius: BorderRadius.circular(15)),
@@ -105,11 +107,24 @@ class _CadastreScreen extends State<CadastreScreen> {
                     );
                   },
                   child: Text(
-                    'Sign in',
+                    'Continue',
                     style: TextStyle(color: Colors.white, fontSize: 23),
                   ),
                 ),
               ),
+              TextButton(
+                onPressed: () {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (_) => LoginScreen()),
+                  );
+                },
+                child: Text(
+                  'Já tem uma conta?',
+                  style: TextStyle(color: Colors.blue[900], fontSize: 15),
+                ),
+              ),
+              SizedBox(height: 20),
             ],
           ),
         ),
@@ -117,3 +132,4 @@ class _CadastreScreen extends State<CadastreScreen> {
     );
   }
 }
+
