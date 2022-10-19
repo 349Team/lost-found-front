@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:teste/screens/lostObjectsList.dart';
+import 'package:teste/screens/registerScreen.dart';
 
 class LoginScreen extends StatefulWidget {
   LoginScreen({Key? key}) : super(key: key);
@@ -9,8 +10,8 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreen extends State<LoginScreen> {
-  final _tLogin = TextEditingController();
-  final _tPassword = TextEditingController();
+  final _userController = TextEditingController();
+  final _passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -29,10 +30,6 @@ class _LoginScreen extends State<LoginScreen> {
             // crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               SizedBox(height: 100),
-              // Text(
-              //   'Last + Found',
-              //   style: TextStyle(color: Colors.blue[900], fontSize: 30),
-              // ),
               Container(
                 height: 150,
                 width: 150,
@@ -50,35 +47,29 @@ class _LoginScreen extends State<LoginScreen> {
               Padding(
                 padding: EdgeInsets.all(10.0),
                 child: TextField(
-                  controller: _tLogin,
+                  controller: _userController,
                   decoration: InputDecoration(
                       border: OutlineInputBorder(),
-                      labelText: 'Username',
-                      hintText: 'Enter a valid email'),
+                      labelText: 'Usuário',
+                      hintText: 'Digite seu email'),
                 ),
               ),
               Padding(
                 padding: EdgeInsets.all(10.0),
                 child: TextField(
-                  controller: _tPassword,
+                  controller: _passwordController,
                   obscureText: true,
                   decoration: InputDecoration(
+                      fillColor: Colors.red,
                       border: OutlineInputBorder(),
-                      labelText: 'Password',
-                      hintText: 'Enter your password'),
+                      labelText: 'Senha',
+                      hintText: 'Digite sua senha'),
                 ),
               ),
-              // TextButton(
-              //   onPressed: () {},
-              //   child: Text(
-              //     'Forgot password?',
-              //     style: TextStyle(color: Colors.blue[900], fontSize: 15),
-              //   ),
-              // ),
 
               Container(
                 height: 50,
-                width: 200,
+                width: 230,
                 decoration: BoxDecoration(
                     color: Colors.blue[900],
                     borderRadius: BorderRadius.circular(15)),
@@ -90,10 +81,32 @@ class _LoginScreen extends State<LoginScreen> {
                     );
                   },
                   child: Text(
-                    'Login',
+                    'Entrar',
                     style: TextStyle(color: Colors.white, fontSize: 23),
                   ),
                 ),
+              ),
+
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  Text(
+                    "Não tem uma conta?",
+                    style: TextStyle(
+                      color: Color(0xFFb8b8b8),
+                    ),
+                  ),
+                  TextButton(
+                    child: Text("Registre-se"),
+                    onPressed: () {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(builder: (_) => RegisterScreen()),
+                      );
+                    },
+                  ),
+                ],
               ),
             ],
           ),
@@ -102,3 +115,4 @@ class _LoginScreen extends State<LoginScreen> {
     );
   }
 }
+
