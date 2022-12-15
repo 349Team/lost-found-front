@@ -16,7 +16,7 @@ class _LoginScreen extends State<LoginScreen> {
   bool _isSnackbarActive = false;
   bool _obscureText = true;
 
-  var snackBar = SnackBar(
+  var snackBar = const SnackBar(
     content: Text('Login ou Senha incorretos!', style: TextStyle(fontSize: 17)),
     backgroundColor: Colors.red,
   );
@@ -34,32 +34,28 @@ class _LoginScreen extends State<LoginScreen> {
         width: double.infinity,
         child: SingleChildScrollView(
           child: Column(
-            // mainAxisAlignment: MainAxisAlignment.center,
-            // crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SizedBox(height: 100),
+              const SizedBox(height: 100),
               Container(
                 height: 150,
                 width: 150,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   shape: BoxShape.circle,
                 ),
-                // child: Container(
                 child: Image.asset(
                   'assets/icone.png',
                   fit: BoxFit.cover,
                 ),
-                // ),
               ),
-              // SizedBox(height: 10),
               Padding(
                 padding: EdgeInsets.all(10.0),
                 child: TextField(
                   controller: _userController,
                   decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'Usuário',
-                      hintText: 'Digite seu ra'),
+                    border: OutlineInputBorder(),
+                    labelText: 'Usuário',
+                    hintText: 'Digite seu ra',
+                  ),
                 ),
               ),
               Padding(
@@ -74,24 +70,26 @@ class _LoginScreen extends State<LoginScreen> {
                     suffixIcon: IconButton(
                       splashRadius: 20,
                       onPressed: () {
-                        setState(() {
-                          _obscureText = !_obscureText;
-                        });
+                        setState(
+                          () {
+                            _obscureText = !_obscureText;
+                          },
+                        );
                       },
                       icon: (_obscureText == true)
-                          ? Icon(Icons.visibility_off)
-                          : Icon(Icons.visibility),
+                          ? const Icon(Icons.visibility_off)
+                          : const Icon(Icons.visibility),
                     ),
                   ),
                 ),
               ),
-
               Container(
                 height: 50,
                 width: 230,
                 decoration: BoxDecoration(
-                    color: Colors.blue[900],
-                    borderRadius: BorderRadius.circular(15)),
+                  color: Colors.blue[900],
+                  borderRadius: BorderRadius.circular(15),
+                ),
                 child: TextButton(
                   onPressed: () async {
                     String resposta = await completeLogin(
@@ -107,34 +105,40 @@ class _LoginScreen extends State<LoginScreen> {
                         ScaffoldMessenger.of(context)
                             .showSnackBar(snackBar)
                             .closed
-                            .then((SnackBarClosedReason reason) =>
-                                {_isSnackbarActive = false});
+                            .then(
+                              (SnackBarClosedReason reason) =>
+                                  {_isSnackbarActive = false},
+                            );
                       }
                     }
                   },
-                  child: Text(
+                  child: const Text(
                     'Entrar',
-                    style: TextStyle(color: Colors.white, fontSize: 23),
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 23,
+                    ),
                   ),
                 ),
               ),
-
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 mainAxisSize: MainAxisSize.max,
                 children: [
-                  Text(
+                  const Text(
                     "Não tem uma conta?",
                     style: TextStyle(
                       color: Color(0xff707070),
                     ),
                   ),
                   TextButton(
-                    child: Text("Registre-se"),
+                    child: const Text("Registre-se"),
                     onPressed: () {
                       Navigator.pushReplacement(
                         context,
-                        MaterialPageRoute(builder: (_) => RegisterScreen()),
+                        MaterialPageRoute(
+                          builder: (_) => RegisterScreen(),
+                        ),
                       );
                     },
                   ),

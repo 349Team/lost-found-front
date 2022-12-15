@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
+
 import 'package:teste/screens/loginScreen.dart';
-import 'package:teste/screens/lostObjectsList.dart';
 import 'package:teste/data/user.dart';
 import 'package:teste/services/api.dart';
 
@@ -20,17 +21,16 @@ class _RegisterScreen extends State<RegisterScreen> {
 
   bool _obscureText = true;
   bool _isSnackbarActive = false;
-  //User? usuario;
 
   var snackBarSuccess = SnackBar(
-    content: Text(
+    content: const Text(
       'Agora digite suas credenciais para continuar.',
       style: TextStyle(fontSize: 17),
     ),
     backgroundColor: Colors.blue,
   );
 
-  var snackBarError = SnackBar(
+  var snackBarError = const SnackBar(
     content: Text(
       'Um erro aconteceu no cadastro.',
       style: TextStyle(fontSize: 17),
@@ -38,21 +38,17 @@ class _RegisterScreen extends State<RegisterScreen> {
     backgroundColor: Colors.red,
   );
 
+  var snackBarErrorCadastro = const SnackBar(
+    content: Text(
+      'ERRO! Usuário já cadastrado.',
+      style: TextStyle(fontSize: 17),
+    ),
+    backgroundColor: Colors.red,
+  );
+
   @override
   Widget build(BuildContext context) {
-    size:
-    MediaQuery.of(context).size; //getting the size property
-    orientation:
-    MediaQuery.of(context).orientation; //getting the orientation
     return Scaffold(
-      // appBar: AppBar(
-      //   title: Text("Lost + Found"),
-      //   backgroundColor: Theme.of(context).primaryColor,
-      //   centerTitle: false,
-      //   actions: [
-      //     Image.asset('assets/icone2.png'),
-      //   ],
-      // ),
       backgroundColor: Colors.white,
       body: SizedBox(
         height: double.infinity,
@@ -60,68 +56,72 @@ class _RegisterScreen extends State<RegisterScreen> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              SizedBox(height: 100),
-              Container(
-                child: Text(
-                  'Criando um conta',
-                  style: TextStyle(color: Colors.blue[900], fontSize: 30),
+              const SizedBox(height: 100),
+              Text(
+                'Criando um conta',
+                style: TextStyle(
+                  color: Colors.blue[900],
+                  fontSize: 30,
                 ),
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               Padding(
-                padding: EdgeInsets.all(10.0),
+                padding: const EdgeInsets.all(10.0),
                 child: TextField(
                   controller: _nameController,
-                  // autofocus: true,
                   keyboardType: TextInputType.name,
-                  decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'Nome',
-                      hintText: 'Insira seu nome completo'),
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'Nome',
+                    hintText: 'Insira seu nome completo',
+                  ),
                 ),
               ),
               Padding(
-                padding: EdgeInsets.all(10.0),
+                padding: const EdgeInsets.all(10.0),
                 child: TextField(
                   controller: _raController,
                   keyboardType: TextInputType.number,
                   maxLength: 7,
-                  decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'RA',
-                      hintText: 'Insira seu RA'),
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'RA',
+                    hintText: 'Insira seu RA',
+                  ),
                 ),
               ),
               Padding(
-                padding: EdgeInsets.all(10.0),
+                padding: const EdgeInsets.all(10.0),
                 child: TextField(
                   controller: _campusController,
                   // autofocus: true,
                   keyboardType: TextInputType.text,
-                  decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'Campus',
-                      hintText: 'Insira seu campus'),
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'Campus',
+                    hintText: 'Insira seu campus',
+                  ),
                 ),
               ),
               Padding(
-                padding: EdgeInsets.all(10.0),
+                padding: const EdgeInsets.all(10.0),
                 child: TextField(
                   controller: _emailController,
                   keyboardType: TextInputType.emailAddress,
-                  decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'Email',
-                      hintText: 'Digite um email válido'),
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'Email',
+                    hintText: 'Digite um email válido',
+                  ),
                 ),
               ),
               Padding(
-                padding: EdgeInsets.all(10.0),
+                padding: const EdgeInsets.all(10.0),
                 child: TextField(
                   controller: _passwordController,
                   obscureText: _obscureText,
                   decoration: InputDecoration(
-                    border: OutlineInputBorder(),
+                    border: const OutlineInputBorder(),
                     labelText: 'Senha',
                     hintText: 'Digite sua senha',
                     suffixIcon: IconButton(
@@ -138,13 +138,14 @@ class _RegisterScreen extends State<RegisterScreen> {
                   ),
                 ),
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               Container(
                 height: 50,
                 width: 230,
                 decoration: BoxDecoration(
-                    color: Colors.blue[900],
-                    borderRadius: BorderRadius.circular(15)),
+                  color: Colors.blue[900],
+                  borderRadius: BorderRadius.circular(15),
+                ),
                 child: TextButton(
                   onPressed: () async {
                     var tempMap = {
@@ -156,10 +157,13 @@ class _RegisterScreen extends State<RegisterScreen> {
                     };
 
                     User usuario = User.fromMap(tempMap);
-                    if (await register(usuario) == SimpleResponse.ok) {
+                    String response = await register(usuario);
+                    if (response == "OK") {
                       ScaffoldMessenger.of(context)
                           .showSnackBar(snackBarSuccess);
-                      await Future.delayed(Duration(milliseconds: 50));
+                      await Future.delayed(
+                        const Duration(milliseconds: 50),
+                      );
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(builder: (_) => LoginScreen()),
@@ -167,17 +171,29 @@ class _RegisterScreen extends State<RegisterScreen> {
                     } else {
                       if (!_isSnackbarActive) {
                         _isSnackbarActive = true;
-                        ScaffoldMessenger.of(context)
-                            .showSnackBar(snackBarError)
-                            .closed
-                            .then((SnackBarClosedReason reason) =>
-                                {_isSnackbarActive = false});
+                        //print(response);
+                        if (response == "1") {
+                          ScaffoldMessenger.of(context)
+                              .showSnackBar(snackBarErrorCadastro)
+                              .closed
+                              .then((SnackBarClosedReason reason) =>
+                                  {_isSnackbarActive = false});
+                        } else {
+                          ScaffoldMessenger.of(context)
+                              .showSnackBar(snackBarError)
+                              .closed
+                              .then((SnackBarClosedReason reason) =>
+                                  {_isSnackbarActive = false});
+                        }
                       }
                     }
                   },
-                  child: Text(
+                  child: const Text(
                     'Continue',
-                    style: TextStyle(color: Colors.white, fontSize: 23),
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 23,
+                    ),
                   ),
                 ),
               ),
@@ -193,7 +209,7 @@ class _RegisterScreen extends State<RegisterScreen> {
                   style: TextStyle(color: Colors.blue[900], fontSize: 15),
                 ),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
             ],
           ),
         ),
@@ -202,7 +218,6 @@ class _RegisterScreen extends State<RegisterScreen> {
   }
 }
 
-Future<SimpleResponse> register(User user) async {
-  //await Future.delayed(Duration(seconds: 2));
+Future<String> register(User user) async {
   return api.createUser(user);
 }

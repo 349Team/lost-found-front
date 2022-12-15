@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:teste/screens/myObjectsList.dart';
 import 'package:teste/services/api.dart';
 import 'loginScreen.dart';
@@ -23,64 +24,100 @@ class _LoginScreen extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    //LostObjectModel objetos = LostObjectModel.fromJson(jsonData);
     return Scaffold(
       drawer: Drawer(
-        child: ListView(padding: EdgeInsets.zero, children: [
-          SizedBox(
-              height: 70,
-              child: DrawerHeader(
-                  child: Row(
-                    children: [
-                      Text('LOST&FOUND',
-                          style:
-                              TextStyle(color: Colors.white, fontSize: 23.0)),
-                      Spacer(),
-                      Icon(Icons.search_off_outlined,
-                          color: Colors.white, size: 33),
-                    ],
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            Expanded(
+              child: ListView(
+                padding: EdgeInsets.zero,
+                children: [
+                  SizedBox(
+                    height: 70,
+                    child: DrawerHeader(
+                      child: Row(
+                        children: [
+                          const Text(
+                            'LOST&FOUND',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 23.0,
+                            ),
+                          ),
+                        ],
+                      ),
+                      decoration:
+                          BoxDecoration(color: Theme.of(context).primaryColor),
+                      margin: const EdgeInsets.all(0.0),
+                      padding: const EdgeInsets.all(15.0),
+                    ),
                   ),
-                  decoration:
-                      BoxDecoration(color: Theme.of(context).primaryColor),
-                  margin: EdgeInsets.all(0.0),
-                  padding: EdgeInsets.all(15.0))),
-          ListTile(
-            title: Text("Home"),
-            leading: Icon(Icons.home),
-            onTap: () {
-              Navigator.of(context).pop();
-              if (screenId != 1)
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (_) => LostObjectsList()),
-                );
-            },
-          ),
-          ListTile(
-            title: Text("Profile"),
-            leading: Icon(Icons.person),
-            onTap: () {
-              Navigator.of(context).pop();
-              if (screenId != 2)
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (_) => ProfileScreen()),
-                );
-            },
-          ),
-          ListTile(
-            title: Text("Meus objetos"),
-            leading: Icon(Icons.emoji_objects),
-            onTap: () {
-              Navigator.of(context).pop();
-              if (screenId != 3)
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (_) => MyLostObjectsList()),
-                );
-            },
-          ),
-        ]),
+                  ListTile(
+                    title: const Text("Home"),
+                    leading: const Icon(Icons.home),
+                    onTap: () {
+                      Navigator.of(context).pop();
+                      if (screenId != 1) {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(builder: (_) => LostObjectsList()),
+                        );
+                      }
+                    },
+                  ),
+                  ListTile(
+                    title: const Text("Profile"),
+                    leading: const Icon(Icons.person),
+                    onTap: () {
+                      Navigator.of(context).pop();
+                      if (screenId != 2) {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(builder: (_) => ProfileScreen()),
+                        );
+                      }
+                    },
+                  ),
+                  ListTile(
+                    title: const Text("Meus objetos"),
+                    leading: const Icon(Icons.emoji_objects),
+                    onTap: () {
+                      Navigator.of(context).pop();
+                      if (screenId != 3) {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (_) => MyLostObjectsList()),
+                        );
+                      }
+                    },
+                  ),
+                ],
+              ),
+            ),
+            Align(
+              alignment: FractionalOffset.bottomCenter,
+              child: Column(
+                children: [
+                  ListTile(
+                    title: const Text("Logout"),
+                    leading: const Icon(Icons.logout),
+                    onTap: () {
+                      api.logout(api.token);
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => LoginScreen(),
+                        ),
+                      );
+                    },
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
       body: FutureBuilder<String>(
         future: _value,
@@ -91,7 +128,6 @@ class _LoginScreen extends State<ProfileScreen> {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.center,
-              //mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 SizedBox(
                   height: 150,
@@ -107,11 +143,12 @@ class _LoginScreen extends State<ProfileScreen> {
                   height: 7,
                 ),
                 Center(
-                    child: Text(
-                  "Carregando perfil do usuário",
-                  style: TextStyle(color: Colors.blue[700], fontSize: 28.0),
-                  textAlign: TextAlign.center,
-                ))
+                  child: Text(
+                    "Carregando perfil do usuário",
+                    style: TextStyle(color: Colors.blue[700], fontSize: 28.0),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
               ],
             );
           } else if (snapshot.connectionState == ConnectionState.done) {
@@ -126,18 +163,15 @@ class _LoginScreen extends State<ProfileScreen> {
                 child: SingleChildScrollView(
                   child: Column(
                     children: <Widget>[
-                      // SizedBox(height: 100),
-                      // Expanded(child:
                       Container(
                         height: MediaQuery.of(context).size.height / 3,
                         width: MediaQuery.of(context).size.width,
                         decoration: BoxDecoration(
-                          // shape: BoxShape.circle,
                           color: Colors.blue[900],
                         ),
                         child: Column(
                           children: [
-                            SizedBox(
+                            const SizedBox(
                               height: 40,
                             ),
                             Container(
@@ -148,12 +182,13 @@ class _LoginScreen extends State<ProfileScreen> {
                                     Border.all(width: 4, color: Colors.white),
                                 boxShadow: [
                                   BoxShadow(
-                                      spreadRadius: 2,
-                                      blurRadius: 10,
-                                      color: Colors.black.withOpacity(0.1))
+                                    spreadRadius: 2,
+                                    blurRadius: 10,
+                                    color: Colors.black.withOpacity(0.1),
+                                  ),
                                 ],
                                 shape: BoxShape.circle,
-                                image: DecorationImage(
+                                image: const DecorationImage(
                                   fit: BoxFit.cover,
                                   image: AssetImage('assets/icone.png'),
                                 ),
@@ -162,58 +197,60 @@ class _LoginScreen extends State<ProfileScreen> {
                           ],
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
                       ListTile(
-                        // onTap: () {},
-                        leading: Icon(Icons.person),
+                        leading: const Icon(Icons.person),
                         title: Text(user.name),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
                       ListTile(
-                        // onTap: () {},
-                        leading: Icon(Icons.numbers),
+                        leading: const Icon(Icons.numbers),
                         title: Text(user.ra),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
                       ListTile(
-                        // onTap: () {},
-                        leading: Icon(Icons.location_city),
+                        leading: const Icon(Icons.location_city),
                         title: Text(user.campus),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
                       ListTile(
-                        leading: Icon(Icons.email),
+                        leading: const Icon(Icons.email),
                         title: Text(user.email),
-                        // dense: true,
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 30,
                       ),
                       Container(
                         height: 40,
                         width: 150,
                         decoration: BoxDecoration(
-                            color: Colors.red,
-                            borderRadius: BorderRadius.circular(15)),
+                          color: Colors.red,
+                          borderRadius: BorderRadius.circular(15),
+                        ),
                         child: TextButton(
                           onPressed: () {
                             api.logout(api.token);
                             Navigator.pushReplacement(
                               context,
-                              MaterialPageRoute(builder: (_) => LoginScreen()),
+                              MaterialPageRoute(
+                                builder: (_) => LoginScreen(),
+                              ),
                             );
                           },
-                          child: Text(
+                          child: const Text(
                             'Sair',
-                            style: TextStyle(color: Colors.white, fontSize: 23),
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 23,
+                            ),
                           ),
                         ),
                       ),
@@ -230,7 +267,7 @@ class _LoginScreen extends State<ProfileScreen> {
         },
       ),
       appBar: AppBar(
-        title: Text("Perfil"),
+        title: const Text("Perfil"),
         backgroundColor: Theme.of(context).primaryColor,
         centerTitle: false,
       ),
@@ -239,7 +276,5 @@ class _LoginScreen extends State<ProfileScreen> {
 }
 
 Future<String> getValue(String tokenR) async {
-  //await Future.delayed(Duration(seconds: 2));
   return api.requestUserData();
-  //return '{"quantidadeObjetos":3,"objetos":[{"nome":"Garrafa térmica","descricao":"Preta e prateada,  grande, media, teste, linha, lorem ipsum, teste vai, teste, lorem ipsum 2, lorem imsum teste, linhas, teste, testand,o,taastes.","status":1,"link":"https://img.ltwebstatic.com/images3_pi/2022/04/27/1651037631f786297003e1e997ded8c11927518868_thumbnail_600x.webp"},{"nome":"Garrafa térmica","descricao":"Preta e prateada,  grande, media, teste, linha, lorem ipsum, teste vai, teste, lorem ipsum 2, lorem imsum teste, linhas, teste, testand,o,taastes.","status":1,"link":"https://img.ltwebstatic.com/images3_pi/2022/04/27/1651037631f786297003e1e997ded8c11927518868_thumbnail_600x.webp"},{"nome":"Garrafa térmica","descricao":"Preta e prateada,  grande, media, teste, linha, lorem ipsum, teste vai, teste, lorem ipsum 2, lorem imsum teste, linhas, teste, testand,o,taastes.","status":1,"link":"https://img.ltwebstatic.com/images3_pi/2022/04/27/1651037631f786297003e1e997ded8c11927518868_thumbnail_600x.webp"},{"nome":"Garrafa térmica","descricao":"Preta e prateada,  grande, media, teste, linha, lorem ipsum, teste vai, teste, lorem ipsum 2, lorem imsum teste, linhas, teste, testand,o,taastes.","status":1,"link":"https://img.ltwebstatic.com/images3_pi/2022/04/27/1651037631f786297003e1e997ded8c11927518868_thumbnail_600x.webp"},{"nome":"Pendrive","descricao":"Prateado","status":2,"link":"https://tm.ibxk.com.br/2017/11/17/17085531315009.jpg?ims=1120x420"},{"nome":"Guarda-chuva","descricao":"De flor.","status":3,"link":"https://drive.google.com/uc?export=view&id=1YQFgdKmZrUS9pSsP9QLAh864619HvLxe"}]}';
 }

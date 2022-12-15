@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:teste/data/lost_object_t1.dart';
 import 'dart:io';
-import 'package:teste/data/user.dart';
-//import '../data/lost_object.dart';
-import '../screens/lostObjectsList.dart';
+import 'package:image_picker/image_picker.dart';
+
+import 'package:teste/data/lost_object_t1.dart';
 import 'package:teste/services/api.dart';
 
 class AddLostObject extends StatefulWidget {
@@ -16,7 +14,7 @@ class AddLostObject extends StatefulWidget {
 }
 
 class _AddLostObjectState extends State<AddLostObject> {
-  var snackBarSuccess = SnackBar(
+  var snackBarSuccess = const SnackBar(
     content: Text(
       'Objeto cadastrado com sucesso.',
       style: TextStyle(fontSize: 17),
@@ -24,7 +22,7 @@ class _AddLostObjectState extends State<AddLostObject> {
     backgroundColor: Colors.blue,
   );
 
-  var snackBarError = SnackBar(
+  var snackBarError = const SnackBar(
     content: Text(
       'Não foi possível fazer o cadastro.',
       style: TextStyle(fontSize: 17),
@@ -37,15 +35,16 @@ class _AddLostObjectState extends State<AddLostObject> {
   XFile? pickedFile;
 
   var _newItem = Objeto(
-      id: 0,
-      image: '',
-      status: 'FOUND',
-      title: '',
-      description: '',
-      type: 'FOUND',
-      location: '',
-      owner: 0,
-      discoverer: 0);
+    id: 0,
+    image: '',
+    status: 'FOUND',
+    title: '',
+    description: '',
+    type: 'FOUND',
+    location: '',
+    owner: 0,
+    discoverer: 0,
+  );
 
   final List<String> _status = ['Achado', 'Perdido'];
   String _selectedStatus = 'Achado';
@@ -55,15 +54,6 @@ class _AddLostObjectState extends State<AddLostObject> {
   @override
   void dispose() {
     super.dispose();
-  }
-
-  void printItem() {
-    print(_newItem.title);
-    print(_newItem.status);
-    print(_newItem.type);
-    print(_newItem.location);
-    print(_newItem.description);
-    print('   ');
   }
 
   Future pickImage(ImageSource source) async {
@@ -90,10 +80,6 @@ class _AddLostObjectState extends State<AddLostObject> {
         actions: <Widget>[
           IconButton(
             onPressed: () async {
-              //Enviar a imagem
-              //int = id da imagem no banco
-              //_newItem.id = id da imagem
-
               if (_form.currentState!.validate()) {
                 _form.currentState!.save();
                 SimpleResponse resultado =
@@ -105,24 +91,17 @@ class _AddLostObjectState extends State<AddLostObject> {
                     ScaffoldMessenger.of(context)
                         .showSnackBar(snackBarError)
                         .closed
-                        .then((SnackBarClosedReason reason) =>
-                            {_isSnackbarActive = false});
+                        .then(
+                          (SnackBarClosedReason reason) =>
+                              {_isSnackbarActive = false},
+                        );
                   }
                 } else {
-                  await Future.delayed(Duration(milliseconds: 50));
+                  await Future.delayed(const Duration(milliseconds: 50));
                   ScaffoldMessenger.of(context).showSnackBar(snackBarSuccess);
                   Navigator.of(context).pop();
                 }
-              } /*else {
-                if (!_isSnackbarActive) {
-                  _isSnackbarActive = true;
-                  ScaffoldMessenger.of(context)
-                      .showSnackBar(snackBarError)
-                      .closed
-                      .then((SnackBarClosedReason reason) =>
-                          {_isSnackbarActive = false});
-                }
-              }*/
+              }
             },
             icon: const Icon(Icons.save),
           ),
@@ -192,7 +171,7 @@ class _AddLostObjectState extends State<AddLostObject> {
                         ),
                       ),
                       child: teste.isEmpty
-                          ? const Icon(Icons.image)
+                          ? const Icon(Icons.upload_file)
                           : FittedBox(
                               child: Image.network(
                                 File(pickedFile!.path).path,
@@ -214,7 +193,6 @@ class _AddLostObjectState extends State<AddLostObject> {
                       },
                       onChanged: (text) => setState(() {
                         _newItem.title = text;
-                        printItem();
                       }),
                     ),
                   ),
@@ -233,20 +211,21 @@ class _AddLostObjectState extends State<AddLostObject> {
                       ),
                     )
                     .toList(),
-                onChanged: (status) => setState(() {
-                  _selectedStatus = status!;
-                  _newItem.status = status;
-                  if (status == 'Achado') {
-                    _newItem.type = 'FOUND';
-                    _newItem.status = 'FOUND';
-                    _newItem.discoverer = api.id;
-                  } else {
-                    _newItem.type = 'LOST';
-                    _newItem.status = 'LOST';
-                    _newItem.owner = api.id;
-                  }
-                  printItem();
-                }),
+                onChanged: (status) => setState(
+                  () {
+                    _selectedStatus = status!;
+                    _newItem.status = status;
+                    if (status == 'Achado') {
+                      _newItem.type = 'FOUND';
+                      _newItem.status = 'FOUND';
+                      _newItem.discoverer = api.id;
+                    } else {
+                      _newItem.type = 'LOST';
+                      _newItem.status = 'LOST';
+                      _newItem.owner = api.id;
+                    }
+                  },
+                ),
               ),
               const SizedBox(
                 height: 10,
@@ -263,7 +242,6 @@ class _AddLostObjectState extends State<AddLostObject> {
                 },
                 onChanged: (text) => setState(() {
                   _newItem.location = text;
-                  printItem();
                 }),
               ),
               const SizedBox(
@@ -285,7 +263,6 @@ class _AddLostObjectState extends State<AddLostObject> {
                 },
                 onChanged: (text) => setState(() {
                   _newItem.description = text;
-                  printItem();
                 }),
               ),
             ],
@@ -296,19 +273,7 @@ class _AddLostObjectState extends State<AddLostObject> {
   }
 }
 
-/*Future<SimpleResponse> sendImage(XFile? file) async {
-  SimpleResponse response = await api.sendImage(file);
-  return response;
-}*/
-
 Future<SimpleResponse> registerObject(Objeto objeto, XFile? file) async {
   SimpleResponse response = await api.registerNewObject(objeto, file);
-
   return response;
 }
-
-/*
-void fazNada() {
-  int t = 10;
-}
-*/
